@@ -30,9 +30,16 @@ export class EIP1193Adapter implements IWalletAdapter {
 
   /** Blockchain address*/
   async getAddress(): Promise<string> {
-    const accounts = (await this.provider.request<string[]>({
-      method: "eth_accounts",
-    }));
+    let accounts: string[];
+    try {
+      accounts = await this.provider.request<string[]>({
+        method: "eth_accounts",
+      });
+    } catch (e) {
+      accounts = await this.provider.request<string[]>({
+        method: "eth_requestAccounts",
+      });
+    }
     const address = accounts[0];
     if (!address) throw new Error(`Enable Ethereum provider`);
     return address;
