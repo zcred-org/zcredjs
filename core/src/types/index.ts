@@ -15,4 +15,5 @@ export type MinaChainId = typeof MINA_CHAINIDS[number];
 export * from "./credential.js";
 export * from "./issuer.js";
 export * from "./wallet-adapter.js";
-export * from "./credential-proof-verifier.js"
+export * from "./credential-proof-verifier.js";
+export * from "./signature-prover.js";
