@@ -1,10 +1,12 @@
-import { Attributes, AttributesSchema, SignatureProof } from "./credential.js";
+import { Attributes, AttributesSchema, Identifier, SignatureProof } from "./credential.js";
 
 export interface ISignatureProver {
 
   proofType: string;
 
-  prove<
+  issuerId: Identifier
+
+  signAttributes<
     TAttr extends Attributes = Attributes
   >(
     attributes: TAttr,
