@@ -1,4 +1,4 @@
-import { CredType, IdType, SignProofType } from "./index.js";
+import { IdType, SignProofType } from "./index.js";
 
 export type Identifier = {
   type: string;
@@ -73,7 +73,7 @@ export interface StrictId extends Identifier {
 }
 
 export interface StrictAttributes extends Attributes {
-  type: CredType;
+  type: string;
   issuanceDate: string;
   validFrom: string;
   validUntil: string;
@@ -92,7 +92,7 @@ export interface StrictSignatureProof extends SignatureProof {
 export type Gender = "male" | "female" | "other"
 
 export interface PassportAttributes extends StrictAttributes {
-  type: CredType;
+  type: string;
   issuanceDate: string;
   validFrom: string;
   validUntil: string;

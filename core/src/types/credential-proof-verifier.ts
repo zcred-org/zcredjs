@@ -1,6 +1,6 @@
 import { ZkCredential } from "./credential.js";
 
-export interface ICredentialVerifier {
+export interface ICredentialProofVerifier {
   /** proof type which verifier provides */
   proofType: string;
 
