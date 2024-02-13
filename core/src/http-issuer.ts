@@ -116,15 +116,15 @@ export class HttpIssuer implements IHttpIssuer {
       if (!popup) {
         throw new Error(`Can not open popup window to issue credential, popup URL: ${challenge.verifyURL}`);
       }
-      const result = await repeatUtil<boolean>(
-        (r) => (r instanceof Error) ? true : r,
-        1000,
-        async () => {
-          return (await this.canIssue({ sessionId: challenge.sessionId })).canIssue;
-        }
-      );
-      if (result instanceof Error) throw result;
     }
+    const result = await repeatUtil<boolean>(
+      (r) => (r instanceof Error) ? true : r,
+      1000,
+      async () => {
+        return (await this.canIssue({ sessionId: challenge.sessionId })).canIssue;
+      }
+    );
+    if (result instanceof Error) throw result;
     const signature = await sign({ message: challenge.message });
     return this.issue({
       sessionId: challenge.sessionId,
