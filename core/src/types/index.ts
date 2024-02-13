@@ -7,9 +7,7 @@ export const SIGNATURE_PROOFS = [
 ] as const;
 export type SignProofType = typeof SIGNATURE_PROOFS[number];
 
-export const ACI_PROOFS = ["aci:mina-poseidon"] as const;
-export type ACIProofType = typeof ACI_PROOFS[number]
-export type ProofType = SignProofType | ACIProofType
+export type ProofType = SignProofType
 
 export const CRED_TYPES = ["passport", "passport-test"] as const;
 export type CredType = typeof CRED_TYPES[number];

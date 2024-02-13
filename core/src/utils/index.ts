@@ -1,5 +1,4 @@
 import {
-  ACIProof,
   CRED_TYPES,
   CredType,
   ID_TYPES,
@@ -58,29 +57,6 @@ function isSignatureProof(proof: any): proof is SignatureProof {
     Array.isArray(proof?.schema?.type);
 }
 
-function isACIProof(proof: unknown): proof is ACIProof {
-  return typeof proof === "object" &&
-    proof !== null &&
-    "type" in proof &&
-    typeof proof.type === "string" &&
-    "aci" in proof &&
-    typeof proof.aci === "string" &&
-    "schema" in proof &&
-    typeof proof.schema === "object" &&
-    proof.schema !== null &&
-    "attributes" in proof.schema &&
-    typeof proof.schema.attributes === "object" &&
-    proof.schema.attributes !== null &&
-    "type" in proof.schema &&
-    typeof proof.schema.type === "object" &&
-    proof.schema.type !== null &&
-    Array.isArray(proof.schema.type) &&
-    "aci" in proof.schema &&
-    typeof proof.schema.aci === "object" &&
-    proof.schema.aci !== null &&
-    Array.isArray(proof.schema.aci);
-}
-
 export const zcredjs = {
   isIdType,
   isSignProofType,
@@ -98,7 +74,6 @@ export const zcredjs = {
     })();
   },
   isMinaChainId,
-  isACIProof,
   isSignatureProof,
   chainIdReqexp: "^[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}$"
 };

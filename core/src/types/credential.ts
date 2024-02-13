@@ -1,4 +1,4 @@
-import { ACIProofType, CredType, IdType, SignProofType } from "./index.js";
+import { CredType, IdType, SignProofType } from "./index.js";
 
 export type Identifier = {
   type: string;
@@ -32,18 +32,7 @@ export type SignatureProof = {
   }
 }
 
-/** Attributes content identifier proof */
-export type ACIProof = {
-  type: string;
-  aci: string;
-  schema: {
-    attributes: AttributesSchema;
-    type: string[];
-    aci: string[];
-  }
-}
-
-export type Proof = SignatureProof | ACIProof
+export type Proof = SignatureProof
 
 export type Attributes = {
   type: string;
@@ -93,10 +82,6 @@ export interface StrictSignatureProof extends SignatureProof {
   issuer: {
     id: StrictId;
   };
-}
-
-export interface StrictACIProof extends ACIProof {
-  type: ACIProofType;
 }
 
 export type Gender = "male" | "female" | "other"
