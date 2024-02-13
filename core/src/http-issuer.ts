@@ -18,11 +18,12 @@ export class HttpIssuer implements IHttpIssuer {
     issuerURI: string,
     private readonly accessToken?: string
   ) {
-    this.uri = new URL(issuerURI);
+    const uri = issuerURI.endsWith("/") ? issuerURI : issuerURI + "/";
+    this.uri = new URL(uri);
     const paths = this.uri.pathname;
     const type = paths[paths.length - 1];
     if (!type) {
-      throw new Error(`Http issuer initialization error: issuer endpoint pathname is undefined, endpoint: ${issuerURI}`);
+      throw new Error(`Http issuer initialization error: issuer endpoint pathname is undefined, endpoint: ${uri}`);
     }
   }
 
