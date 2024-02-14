@@ -6,8 +6,8 @@ import sortKeys from "sort-keys";
 export class MinaPoseidonPastaProver implements ISignatureProver {
 
   private readonly trGraph: O1TrGraph;
-  private readonly publicKey: PublicKey;
-  private readonly privateKey: PrivateKey;
+  readonly publicKey: PublicKey;
+  readonly privateKey: PrivateKey;
 
   constructor(
     private readonly o1js: typeof import("o1js"),
