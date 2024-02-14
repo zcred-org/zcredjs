@@ -18,11 +18,12 @@ export class HttpIssuer implements IHttpIssuer {
     issuerURI: string,
     private readonly accessToken?: string
   ) {
-    this.uri = new URL(issuerURI);
+    const uri = issuerURI.endsWith("/") ? issuerURI : issuerURI + "/";
+    this.uri = new URL(uri);
     const paths = this.uri.pathname;
     const type = paths[paths.length - 1];
     if (!type) {
-      throw new Error(`Http issuer initialization error: issuer endpoint pathname is undefined, endpoint: ${issuerURI}`);
+      throw new Error(`Http issuer initialization error: issuer endpoint pathname is undefined, endpoint: ${uri}`);
     }
   }
 
@@ -115,15 +116,15 @@ export class HttpIssuer implements IHttpIssuer {
       if (!popup) {
         throw new Error(`Can not open popup window to issue credential, popup URL: ${challenge.verifyURL}`);
       }
-      const result = await repeatUtil<boolean>(
-        (r) => (r instanceof Error) ? true : r,
-        1000,
-        async () => {
-          return (await this.canIssue({ sessionId: challenge.sessionId })).canIssue;
-        }
-      );
-      if (result instanceof Error) throw result;
     }
+    const result = await repeatUtil<boolean>(
+      (r) => (r instanceof Error) ? true : r,
+      1000,
+      async () => {
+        return (await this.canIssue({ sessionId: challenge.sessionId })).canIssue;
+      }
+    );
+    if (result instanceof Error) throw result;
     const signature = await sign({ message: challenge.message });
     return this.issue({
       sessionId: challenge.sessionId,

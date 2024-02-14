@@ -1,5 +1,5 @@
 import { Identifier, IdType, IWalletAdapter, MinaChainId } from "@zcredjs/core";
-import { Field, Scalar, Signature } from "o1js";
+import { Signature } from "../o1js/index.js";
 
 type SignMessageArgs = {
   message: string
@@ -113,9 +113,6 @@ export class AuroWalletAdapter implements IWalletAdapter {
         scalar
       }
     } = await this.provider.signMessage(args);
-    return Signature.fromObject({
-      r: Field.fromJSON(field),
-      s: Scalar.fromJSON(scalar)
-    }).toBase58();
+    return Signature.toBase58({ r: BigInt(field), s: BigInt(scalar) });
   };
 }
