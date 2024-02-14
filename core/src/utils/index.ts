@@ -1,7 +1,4 @@
 import {
-  ACIProof,
-  CRED_TYPES,
-  CredType,
   ID_TYPES,
   IdType,
   MINA_CHAINIDS,
@@ -22,12 +19,6 @@ function isSignProofType(proofType: string): proofType is SignProofType {
   return SIGNATURE_PROOFS
     // @ts-ignore
     .includes(proofType);
-}
-
-function isCredType(credType: string): credType is CredType {
-  return CRED_TYPES
-    // @ts-ignore
-    .includes(credType);
 }
 
 function normalizeId(id: StrictId): StrictId {
@@ -58,47 +49,11 @@ function isSignatureProof(proof: any): proof is SignatureProof {
     Array.isArray(proof?.schema?.type);
 }
 
-function isACIProof(proof: unknown): proof is ACIProof {
-  return typeof proof === "object" &&
-    proof !== null &&
-    "type" in proof &&
-    typeof proof.type === "string" &&
-    "aci" in proof &&
-    typeof proof.aci === "string" &&
-    "schema" in proof &&
-    typeof proof.schema === "object" &&
-    proof.schema !== null &&
-    "attributes" in proof.schema &&
-    typeof proof.schema.attributes === "object" &&
-    proof.schema.attributes !== null &&
-    "type" in proof.schema &&
-    typeof proof.schema.type === "object" &&
-    proof.schema.type !== null &&
-    Array.isArray(proof.schema.type) &&
-    "aci" in proof.schema &&
-    typeof proof.schema.aci === "object" &&
-    proof.schema.aci !== null &&
-    Array.isArray(proof.schema.aci);
-}
-
 export const zcredjs = {
   isIdType,
   isSignProofType,
-  isCredType,
   normalizeId,
-  issuerPath(credType: CredType) {
-    const basePath = `/api/v1/zcred/issuers/${credType}`;
-    return new (class PathProvider {
-      get challenge() { return `${basePath}/challenge`;}
-      get canIssue() { return `${basePath}/can-issue`; }
-      get issue() { return `${basePath}/issue`; }
-      get info() { return `${basePath}/info`; }
-      get updateProofs() { return `${basePath}/update-proofs`; }
-      endpoint(domain: string) {return new URL(basePath, domain);}
-    })();
-  },
   isMinaChainId,
-  isACIProof,
   isSignatureProof,
   chainIdReqexp: "^[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}$"
 };

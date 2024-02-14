@@ -1,4 +1,4 @@
-import { ACIProofType, CredType, IdType, SignProofType } from "./index.js";
+import { IdType, SignProofType } from "./index.js";
 
 export type Identifier = {
   type: string;
@@ -32,18 +32,7 @@ export type SignatureProof = {
   }
 }
 
-/** Attributes content identifier proof */
-export type ACIProof = {
-  type: string;
-  aci: string;
-  schema: {
-    attributes: AttributesSchema;
-    type: string[];
-    aci: string[];
-  }
-}
-
-export type Proof = SignatureProof | ACIProof
+export type Proof = SignatureProof
 
 export type Attributes = {
   type: string;
@@ -63,14 +52,19 @@ export type ZkCredential<TAttr extends Attributes = Attributes> = {
 export const META_ISSUER_TYPES = ["http"] as const;
 export type MetaIssuerType = typeof META_ISSUER_TYPES[number]
 
+type AttributesDefValue = string | { [key: string]: AttributesDefValue }
+
 export interface HttpCredential<TAttr extends Attributes = Attributes> extends ZkCredential<TAttr> {
   meta: {
     issuer: {
       type: MetaIssuerType;
       uri: string;
     }
+    attributesDefinition: { [key: string]: AttributesDefValue }
   };
-  jws: string;
+  protection: {
+    jws: string;
+  };
 }
 
 export interface StrictId extends Identifier {
@@ -79,7 +73,7 @@ export interface StrictId extends Identifier {
 }
 
 export interface StrictAttributes extends Attributes {
-  type: CredType;
+  type: string;
   issuanceDate: string;
   validFrom: string;
   validUntil: string;
@@ -95,14 +89,10 @@ export interface StrictSignatureProof extends SignatureProof {
   };
 }
 
-export interface StrictACIProof extends ACIProof {
-  type: ACIProofType;
-}
-
 export type Gender = "male" | "female" | "other"
 
 export interface PassportAttributes extends StrictAttributes {
-  type: CredType;
+  type: string;
   issuanceDate: string;
   validFrom: string;
   validUntil: string;

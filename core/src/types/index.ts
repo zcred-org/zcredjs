@@ -7,12 +7,7 @@ export const SIGNATURE_PROOFS = [
 ] as const;
 export type SignProofType = typeof SIGNATURE_PROOFS[number];
 
-export const ACI_PROOFS = ["aci:mina-poseidon"] as const;
-export type ACIProofType = typeof ACI_PROOFS[number]
-export type ProofType = SignProofType | ACIProofType
-
-export const CRED_TYPES = ["passport", "passport-test"] as const;
-export type CredType = typeof CRED_TYPES[number];
+export type ProofType = SignProofType
 
 export const MINA_CHAINIDS = ["mina:mainnet", "mina:berkeley"] as const;
 export type MinaChainId = typeof MINA_CHAINIDS[number];
@@ -20,4 +15,5 @@ export type MinaChainId = typeof MINA_CHAINIDS[number];
 export * from "./credential.js";
 export * from "./issuer.js";
 export * from "./wallet-adapter.js";
-export * from "./credential-verifier.js"
+export * from "./credential-proof-verifier.js";
+export * from "./signature-prover.js";

@@ -1,5 +1,6 @@
 import { Identifier, IWalletAdapter } from "@zcredjs/core";
 import * as u8a from "uint8arrays";
+import { EthSignature } from "../index.js";
 
 export interface RequestArguments {
   readonly method: string;
@@ -17,6 +18,7 @@ export class EIP1193Adapter implements IWalletAdapter {
     this.getAddress = this.getAddress.bind(this);
     this.getChainId = this.getChainId.bind(this);
     this.sign = this.sign.bind(this);
+    this.signMessage = this.signMessage.bind(this);
   }
 
   /** ZCIP-2 Identifier */
@@ -50,7 +52,7 @@ export class EIP1193Adapter implements IWalletAdapter {
     const message = args.message;
     const address = await this.getAddress();
     const hexMessage = u8a.toString(u8a.fromString(message), "hex");
-    return this.signMessage(address, hexMessage);
+    return EthSignature.toBase58(await this.signMessage(address, hexMessage));
   };
 
   private async signMessage(address: string, hexMessage: string): Promise<string> {

@@ -1,4 +1,4 @@
-import { HttpCredential, Identifier, StrictId } from "./credential.js";
+import { HttpCredential, Identifier, MetaIssuerType, StrictId } from "./credential.js";
 import { SignFn } from "./wallet-adapter.js";
 
 export type ChallengeOptions = {
@@ -57,21 +57,36 @@ export type BrowserIssueParams = {
 }
 
 export type Info = {
-  /** kid for credential JWS verification */
-  kid: string;
-  /** Credential type */
-  credentialType: string;
-  /** If true Issuer MUST provide update proofs method */
-  updatableProofs: boolean;
-  /** ISO date when new proof types was added to credential */
-  proofsUpdated: string;
-  /** Proofs information */
-  proofsInfo: {
-    /** Proof type */
+  protection: {
+    /** kid for credential JWS verification */
+    jws: { kid: string; }
+  }
+  issuer: {
+    /** Type of issuer */
+    type: MetaIssuerType;
+    /** Issuer URI */
+    uri: string;
+  }
+  credential: {
+    /** credential type provided by issuer */
     type: string;
-    /** References to proof */
-    references: string[]
-  }[]
+    /**
+     * If attributes policy value is "strict" this mean that only issuer can set value of the property.
+     * If attributes policy value is "custom" this mean that subject can set value of the property
+     */
+    attributesPolicy: {
+      validFrom: "strict" | "custom";
+      validUntil: "strict" | "custom";
+    }
+  }
+  proofs: {
+    /** If true Issuer MUST provide update proofs method */
+    updatable: boolean;
+    /** ISO date when new proof type was added to credential*/
+    updatedAt: string;
+    /** key MUST be proof-type and value reference list */
+    types: { [key: string]: string[] }
+  }
 }
 
 /** Http issuer interface */
@@ -92,13 +107,13 @@ export interface IHttpIssuer {
   updateProofs?<
     TCred extends HttpCredential = HttpCredential
   >(cred: TCred): Promise<TCred>;
-  /** Change subject id method */
+  /** Issue from browser */
   browserIssue?<
     TCred extends HttpCredential = HttpCredential
   >(args: BrowserIssueParams): Promise<TCred>;
 }
 
-export interface ZChallengeReq extends ChallengeReq {
+export interface StrictChallengeReq extends ChallengeReq {
   subject: {
     id: StrictId;
   };
@@ -106,5 +121,5 @@ export interface ZChallengeReq extends ChallengeReq {
 
 
 export interface IStrictHttpIssuer extends IHttpIssuer {
-  getChallenge(challengeReq: ZChallengeReq): Promise<Challenge>;
+  getChallenge(challengeReq: StrictChallengeReq): Promise<Challenge>;
 }
