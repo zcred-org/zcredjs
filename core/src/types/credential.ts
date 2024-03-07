@@ -60,7 +60,9 @@ export interface HttpCredential<TAttr extends Attributes = Attributes> extends Z
       type: MetaIssuerType;
       uri: string;
     }
-    attributesDefinition: { [key: string]: AttributesDefValue }
+    definitions: {
+      attributes: { [key: string]: AttributesDefValue }
+    }
   };
   protection: {
     jws: string;
