@@ -1,4 +1,4 @@
-import { HttpCredential, Identifier, MetaIssuerType, StrictId } from "./credential.js";
+import { AttributesDefValue, HttpCredential, Identifier, MetaIssuerType, StrictId } from "./credential.js";
 import { SignFn } from "./wallet-adapter.js";
 
 export type ChallengeOptions = {
@@ -78,6 +78,9 @@ export type Info = {
       validFrom: "strict" | "custom";
       validUntil: "strict" | "custom";
     }
+  },
+  definitions: {
+    attributes: { [key: string]: AttributesDefValue };
   }
   proofs: {
     /** If true Issuer MUST provide update proofs method */
