@@ -56,21 +56,10 @@ export class EIP1193Adapter implements IWalletAdapter {
   };
 
   private async signMessage(address: string, hexMessage: string): Promise<string> {
-    try {
-      return await this.provider.request<`0x${string}`>({
-        method: "eth_sign",
-        params: [address, hexMessage]
-      });
-    } catch (e) {
-      const reason = e as Error;
-      if ("code" in reason && (reason.code === -32602 || reason.code === -32601)) {
-        return await this.provider.request<`0x${string}`>({
-          method: "personal_sign",
-          params: [address, hexMessage],
-        });
-      }
-      throw reason;
-    }
+    return await this.provider.request<`0x${string}`>({
+      method: "personal_sign",
+      params: [address, hexMessage],
+    });
   }
 
   private async requestAccounts(): Promise<string[]> {
