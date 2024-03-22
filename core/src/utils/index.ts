@@ -4,7 +4,6 @@ import {
   MINA_CHAINIDS,
   MinaChainId,
   SIGNATURE_PROOFS,
-  SignatureProof,
   SignProofType,
   StrictId
 } from "../types/index.js";
@@ -36,17 +35,42 @@ function isMinaChainId(chainId: string): chainId is MinaChainId {
     .includes(chainId);
 }
 
-function isSignatureProof(proof: any): proof is SignatureProof {
-  return typeof proof?.issuer?.id?.key === "string" &&
-    typeof proof?.issuer?.id?.type === "string" &&
-    typeof proof?.signature === "string" &&
-    typeof proof?.type === "string" &&
-    typeof proof?.schema === "object" &&
-    typeof proof?.schema?.attributes === "object" &&
-    Array.isArray(proof?.schema?.signature) &&
-    Array.isArray(proof?.schema?.issuer?.id?.key) &&
-    Array.isArray(proof?.schema?.issuer?.id?.type) &&
-    Array.isArray(proof?.schema?.type);
+export function isStrArray(arr: unknown): arr is string[] {
+  return (
+    typeof arr === "object" && Array.isArray(arr) &&
+    !(arr.find((it) => typeof it !== "string"))
+  );
+}
+
+export function isObject(obj: unknown): obj is {} {
+  return (
+    typeof obj === "object" && obj !== null
+  );
+}
+
+export function isHttpURL(url: unknown): boolean {
+  try {
+    if (typeof url === "string" && url.startsWith("http")) {
+      new URL(url);
+      return true;
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+// TODO: change this
+export function isISODateTime(dateTime: unknown): boolean {
+  try {
+    if (typeof dateTime === "string") {
+      new Date(dateTime).toISOString();
+      return true;
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
 }
 
 export const zcredjs = {
@@ -54,7 +78,6 @@ export const zcredjs = {
   isSignProofType,
   normalizeId,
   isMinaChainId,
-  isSignatureProof,
   chainIdReqexp: "^[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}$"
 };
 
