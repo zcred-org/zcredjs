@@ -17,3 +17,4 @@ export * from "./issuer.js";
 export * from "./wallet-adapter.js";
 export * from "./credential-proof-verifier.js";
 export * from "./signature-prover.js";
+export * from "./exceptions.js";
