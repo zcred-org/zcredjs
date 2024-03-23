@@ -32,7 +32,7 @@ export const IEC = {
   ISSUE_BAD_SIGNATURE: 14004 as const,
   /** Bad "updateProofs" request */
   UPDATE_PROOFS_BAD_REQ: 15001 as const,
-  /** Bad credential send in "updateProofs" */
+  /** Bad response send in "updateProofs" */
   UPDATE_PROOFS_BAD_RESP: 15002 as const
 };
 
