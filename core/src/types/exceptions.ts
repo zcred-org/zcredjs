@@ -4,24 +4,28 @@ import { isObject } from "../utils/index.js";
 export const IEC = {
   /** ENOTFOUND of any required method */
   NO_ISSUER: 10000 as const,
-  /** issuer error, http status code is 500 at any method*/
+  /** issuer error, http status code is 500 at any method */
   ISSUER_ERROR: 10001 as const,
   /** Access token required */
   NO_ACCESS_TOKEN: 10002 as const,
   /** Access token is invalid */
   INVALID_ACCESS_TOKEN: 10003 as const,
+
   /** "getInfo" returns invalid body, not JSON Info type*/
   INFO_BAD_RESP: 11001 as const,
+
   /** Bad challenge request */
   CHALLENGE_BAD_REQ: 12001 as const,
   /** Challenge response not match expected JSON */
   CHALLENGE_BAD_RESP: 12002 as const,
+
   /** Bad "canIssue" request */
   CAN_ISSUE_BAD_REQ: 13001 as const,
   /** Can issue response not matched expected JSON */
   CAN_ISSUE_BAD_RESP: 13002 as const,
   /** Session not found during "canIssue" method */
   CAN_ISSUE_NO_SESSION: 13003 as const,
+
   /** Bad "issue" request */
   ISSUE_BAD_REQ: 14001 as const,
   /** Bad "issue" resp */
@@ -30,10 +34,15 @@ export const IEC = {
   ISSUE_NO_SESSION: 14003 as const,
   /** Client signature is not valid in "issue" request */
   ISSUE_BAD_SIGNATURE: 14004 as const,
+  /** Can not issue for some reason */
+  ISSUE_DENIED: 14005 as const,
+
   /** Bad "updateProofs" request */
   UPDATE_PROOFS_BAD_REQ: 15001 as const,
   /** Bad response send in "updateProofs" */
-  UPDATE_PROOFS_BAD_RESP: 15002 as const
+  UPDATE_PROOFS_BAD_RESP: 15002 as const,
+  /** "updateProofs" not implemented */
+  UPDATE_PROOFS_NOT_PROVIDED: 15003 as const
 };
 
 export type IECode = typeof IEC[keyof typeof IEC]
