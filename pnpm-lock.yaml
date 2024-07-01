@@ -9,6 +9,10 @@ importers:
   .: {}
 
   core:
+    dependencies:
+      uuid-random:
+        specifier: ^1.3.2
+        version: 1.3.2
     devDependencies:
       prettier:
         specifier: ^2.8.4
@@ -494,6 +498,10 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
       multiformats: 11.0.2
+    dev: false
+
+  /uuid-random@1.3.2:
+    resolution: {integrity: sha512-UOzej0Le/UgkbWEO8flm+0y+G+ljUon1QWTEZOq1rnMAsxo2+SckbiZdKzAHHlVh6gJqI1TjC/xwgR50MuCrBQ==}
     dev: false
 
   /uvu@0.5.6:
