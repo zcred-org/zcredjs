@@ -35,7 +35,7 @@ export class EIP1193Adapter implements IWalletAdapter {
     const accounts = await this.getAccounts();
     if (accounts?.[0]) return accounts[0];
     const requestedAccounts = await this.requestAccounts();
-    if (requestedAccounts?.[0]) return requestedAccounts[0].toLowerCase();
+    if (requestedAccounts?.[0]) return requestedAccounts[0];
     throw new Error(`Enable Ethereum provider`);
   };
 
@@ -63,14 +63,14 @@ export class EIP1193Adapter implements IWalletAdapter {
   }
 
   private async requestAccounts(): Promise<string[]> {
-    return await this.provider.request<string[]>({
+    return (await this.provider.request<string[]>({
       method: "eth_requestAccounts",
-    });
+    })).map((it) => it.toLowerCase());
   }
 
   private async getAccounts(): Promise<string[]> {
-    return await this.provider.request<string[]>({
+    return (await this.provider.request<string[]>({
       method: "eth_accounts",
-    });
+    })).map((it) => it.toLowerCase());
   }
 }
