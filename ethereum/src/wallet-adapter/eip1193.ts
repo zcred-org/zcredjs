@@ -35,7 +35,7 @@ export class EIP1193Adapter implements IWalletAdapter {
     const accounts = await this.getAccounts();
     if (accounts?.[0]) return accounts[0];
     const requestedAccounts = await this.requestAccounts();
-    if (requestedAccounts?.[0]) return requestedAccounts[0];
+    if (requestedAccounts?.[0]) return requestedAccounts[0].toLowerCase();
     throw new Error(`Enable Ethereum provider`);
   };
 
