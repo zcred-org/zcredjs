@@ -14,15 +14,24 @@ import { isHttpURL, isISODateTime, isObject } from "../utils/index.js";
 export type ChallengeOptions = {
   /** Chain id according CAIP-2 */
   chainId?: string;
+  /** Redirect URL after document verification process (e.g. after KYC process) */
+  redirectURL?: string;
 }
 
-export function isChallengeOptions(options: unknown) {
+export function isChallengeOptions(options: unknown): options is ChallengeOptions {
   return (
     typeof options === "object" && options !== null && (
       !("chainId" in options) || (
         "chainId" in options && (
           typeof options.chainId === "undefined" ||
           typeof options.chainId === "string"
+        )
+      )
+    ) && (
+      !("redirectURL" in options) || (
+        "redirectURL" in options && (
+          typeof options.redirectURL === "undefined" ||
+          typeof options.redirectURL === "string"
         )
       )
     )
